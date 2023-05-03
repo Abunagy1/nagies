@@ -1,0 +1,20 @@
+extends layout
+block content
+  h1 ID: #{postinstance._id}
+  p #[strong Title:] 
+    a(href=postinstance.post.url) #{postinstance.post.title}
+  p #[strong Imprint:] #{postinstance.imprint}
+  p #[strong Status:] 
+    if postinstance.status=='Available'
+      span.text-success #{postinstance.status}
+    else if postinstance.status=='Maintenance'
+      span.text-danger #{postinstance.status}
+    else
+      span.text-warning #{postinstance.status}  
+  if postinstance.status!='Available'
+    p #[strong Due back:] #{postinstance.due_back_formatted}
+  hr
+  p
+    a(href=postinstance.url+'/delete') Delete PostInstance
+  p
+    a(href=postinstance.url+'/update') Update PostInstance

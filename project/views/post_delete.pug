@@ -1,0 +1,35 @@
+extends layout
+block content
+  h1 #{title}: #{post.title}
+  p #[strong Author:] 
+    a(href=post.author.url) #{post.author.name}
+  p #[strong Summary:] #{post.summary}
+  p #[strong ISBN:] #{post.isbn}
+  p #[strong Genre:] 
+    each val in post.genre
+      a(href=val.url) #{val.name}
+      |, 
+  hr
+  if post_instances.length
+    p #[strong Delete the following copies before attempting to delete this Post.]
+    div(style='margin-left:20px;margin-top:20px')
+      h4 Copies
+        each post_copy in post_instances
+          hr
+          if post_copy.status=='Available'
+            p.text-success #{post_copy.status}
+          else if post_copy.status=='Maintenance'
+            p.text-danger #{post_copy.status}
+          else
+            p.text-warning #{post_copy.status} 
+          p #[strong Imprint:] #{post_copy.imprint}
+          if post_copy.status!='Available'
+            p #[strong Due back:] #{post_copy.due_back}
+          p #[strong Id:] 
+            a(href=post_copy.url) #{post_copy._id}
+  else
+    p Do you really want to delete this Post?
+    form(method='POST' action='')
+      div.form-group
+        input#id.form-control(type='hidden',name='id', required='true', value=post._id )
+      button.btn.btn-primary(type='submit') Delete

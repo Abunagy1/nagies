@@ -1,0 +1,10 @@
+extends layout
+block content
+  h1= title
+  ul
+    each post in post_list
+      li 
+        a(href=post.url) #{post.title}
+        |  (#{post.author.name})
+    else
+      li There are no posts.
